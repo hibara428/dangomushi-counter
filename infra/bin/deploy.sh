@@ -3,7 +3,7 @@
 
 # Constants
 USAGE="Usage: ${0} create|update|delete HOSTED_ZONE_NAME ACM_CERTIFICATE_ARN"
-STACK_NAME=dangomushi-counter
+STACK_NAME=roly-poly-counter
 TEMPLATE_FILE=./infra/cfn/template.yml
 
 # Parameters
@@ -25,6 +25,8 @@ if [ "${action}" = "create" ] || [ "${action}" = "update" ]; then
             ParameterKey=BucketName,ParameterValue="${STACK_NAME}" \
             ParameterKey=HostedZoneName,ParameterValue="${hosted_zone_name}" \
             ParameterKey=AcmCertificateArn,ParameterValue="${acm_certificate_arn}"
+    # Sync
+    aws s3 cp --recursive ./public s3://${STACK_NAME}/ --exclude ".DS_Store"
 elif [ "${action}" = "delete" ]; then
     aws cloudformation delete-stack --stack-name "${STACK_NAME}"
 else

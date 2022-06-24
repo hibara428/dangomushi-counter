@@ -2,7 +2,7 @@
 # Sync files.
 
 # Constants
-BUCKET_NAME=dangomushi-counter
+BUCKET_NAME=roly-poly-counter
 
 # Sync
-aws s3 cp --recursive ./public s3://${BUCKET_NAME}/
+aws s3 cp --recursive ./public s3://${BUCKET_NAME}/ --exclude ".DS_Store"

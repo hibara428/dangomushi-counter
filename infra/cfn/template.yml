@@ -12,7 +12,7 @@ Parameters:
   Subdomain:
     Type: String
     Description: The sub domain for app
-    Default: dangomushi
+    Default: roly-poly-counter
   HostedZoneName:
     Type: String
     Description: The name of Route53 Hosted zone
