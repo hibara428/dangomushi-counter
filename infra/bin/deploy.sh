@@ -26,7 +26,7 @@ if [ "${action}" = "create" ] || [ "${action}" = "update" ]; then
             ParameterKey=HostedZoneName,ParameterValue="${hosted_zone_name}" \
             ParameterKey=AcmCertificateArn,ParameterValue="${acm_certificate_arn}"
     # Sync
-    aws s3 cp --recursive ./public s3://${STACK_NAME}/ --exclude ".DS_Store"
+    aws s3 cp --recursive ./public s3://${STACK_NAME}/ --exclude ".DS_Store" --exclude "data/data.json"
 elif [ "${action}" = "delete" ]; then
     aws cloudformation delete-stack --stack-name "${STACK_NAME}"
 else
