@@ -23,7 +23,8 @@ let rolyPolyCounts: RolyPolyCountsProps = reactive({
 })
 let otherCounts: OtherCountsProps = reactive({
   dogCount: 0,
-  catCount: 0
+  catCount: 0,
+  butterflyCount: 0
 })
 // methods
 /**
@@ -36,6 +37,7 @@ const reset = () => {
   rolyPolyCounts.northCount = 0
   otherCounts.dogCount = 0
   otherCounts.catCount = 0
+  otherCounts.butterflyCount = 0
 }
 /**
  * カウントアップ
@@ -61,6 +63,9 @@ const countUp = (label: string) => {
     case 'cat':
       otherCounts.catCount++
       break
+    case 'butterfly':
+      otherCounts.butterflyCount++
+      break
   }
 }
 /**
@@ -81,6 +86,9 @@ const convertDataToStats = (): Stats => {
     },
     cats: {
       total: otherCounts.catCount
+    },
+    butterfly: {
+      total: otherCounts.butterflyCount
     }
   }
 }

@@ -88,6 +88,15 @@ const endCount = () => {
                     猫
                   </button>
                 </div>
+                <div class="col d-grid gap-2 mx-auto">
+                  <button
+                    type="button"
+                    class="btn btn-lg btn-block btn-success"
+                    @click="countUp('butterfly')"
+                  >
+                    蝶
+                  </button>
+                </div>
               </div>
             </div>
           </div>

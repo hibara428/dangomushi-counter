@@ -17,7 +17,8 @@ withDefaults(defineProps<StatsTableProps>(), {
   }),
   otherStats: () => ({
     dogCount: 0,
-    catCount: 0
+    catCount: 0,
+    butterflyCount: 0
   })
 })
 </script>
@@ -31,7 +32,11 @@ withDefaults(defineProps<StatsTableProps>(), {
         :south-count="rolyPolyStats.southCount"
         :north-count="rolyPolyStats.northCount"
       />
-      <OtherStatsTable :dog-count="otherStats.dogCount" :cat-count="otherStats.catCount" />
+      <OtherStatsTable
+        :dog-count="otherStats.dogCount"
+        :cat-count="otherStats.catCount"
+        :butterfly-count="otherStats.butterflyCount"
+      />
     </div>
   </section>
 </template>

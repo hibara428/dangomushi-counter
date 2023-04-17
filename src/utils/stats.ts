@@ -14,10 +14,13 @@ export interface Stats {
       north: number
     }
   }
-  dogs: {
+  dogs?: {
     total: number
   }
-  cats: {
+  cats?: {
+    total: number
+  }
+  butterfly?: {
     total: number
   }
 }
@@ -55,14 +58,17 @@ export const mergeStats = (beforeStats: Stats, stats: Stats): Stats => {
         east: beforeStats.rolyPoly.totals.east + stats.rolyPoly.totals.east,
         west: beforeStats.rolyPoly.totals.west + stats.rolyPoly.totals.west,
         south: beforeStats.rolyPoly.totals.south + stats.rolyPoly.totals.south,
-        north: beforeStats.rolyPoly.totals.north + stats.rolyPoly.totals.north,
-      },
+        north: beforeStats.rolyPoly.totals.north + stats.rolyPoly.totals.north
+      }
     },
     dogs: {
-      total: beforeStats.dogs.total + stats.dogs.total,
+      total: (beforeStats.dogs?.total || 0) + (stats.dogs?.total || 0)
     },
     cats: {
-      total: beforeStats.cats.total + stats.cats.total,
+      total: (beforeStats.cats?.total || 0) + (stats.cats?.total || 0)
     },
+    butterfly: {
+      total: (beforeStats.butterfly?.total || 0) + (stats.butterfly?.total || 0)
+    }
   }
 }

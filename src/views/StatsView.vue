@@ -15,7 +15,8 @@ let rolyPolyStats: RolyPolyStatsProps = reactive({
 })
 let otherStats: OtherStatsProps = reactive({
   dogCount: 0,
-  catCount: 0
+  catCount: 0,
+  butterflyCount: 0
 })
 // methods
 const setupRolyPolyStats = (stats: Stats) => {
@@ -25,8 +26,9 @@ const setupRolyPolyStats = (stats: Stats) => {
   rolyPolyStats.northCount = stats.rolyPoly.totals.north
 }
 const setupOtherStats = (stats: Stats) => {
-  otherStats.dogCount = stats.dogs.total
-  otherStats.catCount = stats.cats.total
+  otherStats.dogCount = stats.dogs?.total || 0
+  otherStats.catCount = stats.cats?.total || 0
+  otherStats.butterflyCount = stats.butterfly?.total || 0
 }
 const setup = async () => {
   try {

@@ -17,7 +17,8 @@ withDefaults(defineProps<DailyCountsTableProps>(), {
   }),
   otherCounts: () => ({
     dogCount: 0,
-    catCount: 0
+    catCount: 0,
+    butterflyCount: 0
   })
 })
 </script>
@@ -31,7 +32,11 @@ withDefaults(defineProps<DailyCountsTableProps>(), {
         :south-count="rolyPolyCounts.southCount"
         :north-count="rolyPolyCounts.northCount"
       />
-      <OtherCountsTable :dog-count="otherCounts.dogCount" :cat-count="otherCounts.catCount" />
+      <OtherCountsTable
+        :dog-count="otherCounts.dogCount"
+        :cat-count="otherCounts.catCount"
+        :butterfly-count="otherCounts.butterflyCount"
+      />
     </div>
   </section>
 </template>
