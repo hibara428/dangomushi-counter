@@ -25,18 +25,16 @@ withDefaults(defineProps<StatsTableProps>(), {
 
 <template>
   <section>
-    <div class="container-fluid">
-      <RolyPolyStatsTable
-        :east-count="rolyPolyStats.eastCount"
-        :west-count="rolyPolyStats.westCount"
-        :south-count="rolyPolyStats.southCount"
-        :north-count="rolyPolyStats.northCount"
-      />
-      <OtherStatsTable
-        :dog-count="otherStats.dogCount"
-        :cat-count="otherStats.catCount"
-        :butterfly-count="otherStats.butterflyCount"
-      />
-    </div>
+    <RolyPolyStatsTable
+      :east-count="rolyPolyStats.eastCount"
+      :west-count="rolyPolyStats.westCount"
+      :south-count="rolyPolyStats.southCount"
+      :north-count="rolyPolyStats.northCount"
+    />
+    <OtherStatsTable
+      :dog-count="otherStats.dogCount"
+      :cat-count="otherStats.catCount"
+      :butterfly-count="otherStats.butterflyCount"
+    />
   </section>
 </template>

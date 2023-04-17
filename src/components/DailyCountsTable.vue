@@ -25,18 +25,16 @@ withDefaults(defineProps<DailyCountsTableProps>(), {
 
 <template>
   <section>
-    <div class="container-fluid">
-      <RolyPolyCountsTable
-        :east-count="rolyPolyCounts.eastCount"
-        :west-count="rolyPolyCounts.westCount"
-        :south-count="rolyPolyCounts.southCount"
-        :north-count="rolyPolyCounts.northCount"
-      />
-      <OtherCountsTable
-        :dog-count="otherCounts.dogCount"
-        :cat-count="otherCounts.catCount"
-        :butterfly-count="otherCounts.butterflyCount"
-      />
-    </div>
+    <RolyPolyCountsTable
+      :east-count="rolyPolyCounts.eastCount"
+      :west-count="rolyPolyCounts.westCount"
+      :south-count="rolyPolyCounts.southCount"
+      :north-count="rolyPolyCounts.northCount"
+    />
+    <OtherCountsTable
+      :dog-count="otherCounts.dogCount"
+      :cat-count="otherCounts.catCount"
+      :butterfly-count="otherCounts.butterflyCount"
+    />
   </section>
 </template>

@@ -6,9 +6,7 @@ defineProps<{
 
 <template>
   <section class="title">
-    <div class="container-fluid">
-      <h2>{{ title }}</h2>
-    </div>
+    <h2>{{ title }}</h2>
   </section>
 </template>
 

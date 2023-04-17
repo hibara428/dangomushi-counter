@@ -49,6 +49,8 @@ const setup = async () => {
 </script>
 
 <template>
-  <ContentTitle title="Statistics" />
-  <StatsTable :roly-poly-stats="rolyPolyStats" :other-stats="otherStats" />
+  <div class="container-fluid">
+    <ContentTitle title="Statistics" />
+    <StatsTable :roly-poly-stats="rolyPolyStats" :other-stats="otherStats" />
+  </div>
 </template>

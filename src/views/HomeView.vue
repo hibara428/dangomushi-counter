@@ -122,7 +122,9 @@ const endCount = () => {
 </script>
 
 <template>
-  <ContentTitle title="Daily Counter" />
-  <DailyCountsTable :roly-poly-counts="rolyPolyCounts" :other-counts="otherCounts" />
+  <div class="container-fluid">
+    <ContentTitle title="Daily Counter" />
+    <DailyCountsTable :roly-poly-counts="rolyPolyCounts" :other-counts="otherCounts" />
+  </div>
   <CounterPanel @count-up="countUp" @end-count="endCount" />
 </template>
