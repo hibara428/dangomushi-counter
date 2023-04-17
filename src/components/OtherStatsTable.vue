@@ -22,11 +22,11 @@ withDefaults(defineProps<OtherStatsProps>(), {
     </thead>
     <tbody>
       <tr>
-        <th scope="row">犬</th>
+        <th scope="row">犬🐕</th>
         <td id="dog-total">{{ dogCount }}</td>
       </tr>
       <tr>
-        <th scope="row">猫</th>
+        <th scope="row">猫🐈</th>
         <td id="cat-total">{{ catCount }}</td>
       </tr>
     </tbody>

@@ -13,8 +13,8 @@ defineProps<OtherCountsProps>()
   <table class="table">
     <thead>
       <tr class="table-primary">
-        <th scope="col">犬</th>
-        <th scope="col">猫</th>
+        <th scope="col">犬🐕</th>
+        <th scope="col">猫🐈</th>
       </tr>
     </thead>
     <tbody>
