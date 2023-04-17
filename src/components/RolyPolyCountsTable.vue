@@ -22,7 +22,16 @@ const sum = computed(() => {
 </script>
 
 <template>
-  <h5>Roly-Poly</h5>
+  <h5>
+    Roly-Poly<img
+      src="@/assets/img/roly-poly.png"
+      alt=""
+      width="30"
+      height="24"
+      class="d-inline-block align-text-top"
+    />
+  </h5>
+
   <table class="table">
     <thead>
       <tr class="table-primary">

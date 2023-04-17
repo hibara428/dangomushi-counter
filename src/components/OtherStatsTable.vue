@@ -12,7 +12,7 @@ withDefaults(defineProps<OtherStatsProps>(), {
 </script>
 
 <template>
-  <h5>Others</h5>
+  <h5>Others🐕🐈</h5>
   <table class="table">
     <thead>
       <tr class="table-primary">
