@@ -16,6 +16,12 @@ Parameters:
   HostedZoneName:
     Type: String
     Description: The name of Route53 Hosted zone
+  GitHubOrgName:
+    Type: String
+    Description: The name of GitHub organization
+  GitHubRepoName:
+    Type: String
+    Description: The name of GitHub repository
 
 Resources:
   S3Bucket:
@@ -40,7 +46,7 @@ Resources:
       CorsConfiguration:
         CorsRules:
           - AllowedOrigins:
-              - "*"
+              - '*'
             AllowedMethods:
               - HEAD
               - GET
@@ -48,7 +54,7 @@ Resources:
               - POST
               - DELETE
             AllowedHeaders:
-              - "*"
+              - '*'
 
   S3BucketPolicy:
     Type: AWS::S3::BucketPolicy
@@ -130,6 +136,42 @@ Resources:
       AliasTarget:
         HostedZoneId: Z2FDTNDATAQYW2
         DNSName: !GetAtt CloudFrontDistribution.DomainName
+
+  DeployRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub '${AWS::StackName}-DeployRole'
+      Description: !Sub '${AWS::StackName}-DeployRole'
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Federated: !Sub arn:aws:iam::${AWS::AccountId}:oidc-provider/token.actions.githubusercontent.com
+            Action: 'sts:AssumeRoleWithWebIdentity'
+            Condition:
+              StringLike:
+                'token.actions.githubusercontent.com:sub': !Sub 'repo:${GitHubOrgName}/${GitHubRepoName}:*'
+      ManagedPolicyArns:
+        - !Ref DeployPolicy
+
+  DeployPolicy:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      ManagedPolicyName: !Sub '${AWS::StackName}-DeployPolicy'
+      Description: !Sub '${AWS::StackName}-DeployPolicy'
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Action:
+              - 's3:GetObject'
+              - 's3:PutObject'
+              - 's3:PutObjectAcl'
+            Resource:
+              - !Sub
+                - '${BucketArn}/*'
+                - BucketArn: !GetAtt S3Bucket.Arn
 
 Outputs:
   Name:

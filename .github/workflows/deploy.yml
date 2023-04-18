@@ -3,6 +3,10 @@ on:
   push:
     branches:
       - 'main'
+  workflow_dispatch:
+permissions:
+  id-token: write
+  contents: read
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -14,10 +18,9 @@ jobs:
         with:
           node-version: 18
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@05b148adc31e091bafbaf404f745055d4d3bc9d2
+        uses: aws-actions/configure-aws-credentials@v2
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          role-to-assume: ${{ secrets.AWS_DEPLOY_ROLE }}
           aws-region: ${{ secrets.AWS_REGION }}
       - name: Cache node_modules
         uses: actions/cache@v3
