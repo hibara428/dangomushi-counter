@@ -21,24 +21,35 @@ let otherStats: OtherStatsProps = reactive({
   butterflyCount: 0
 })
 // methods
-const setupRolyPolyStats = (stats: Stats) => {
-  rolyPolyStats.eastCount = stats.rolyPoly.totals.east
-  rolyPolyStats.westCount = stats.rolyPoly.totals.west
-  rolyPolyStats.southCount = stats.rolyPoly.totals.south
-  rolyPolyStats.northCount = stats.rolyPoly.totals.north
+const resetStats = () => {
+  rolyPolyStats.eastCount = 0
+  rolyPolyStats.westCount = 0
+  rolyPolyStats.southCount = 0
+  rolyPolyStats.northCount = 0
+  otherStats.dogCount = 0
+  otherStats.catCount = 0
+  otherStats.butterflyCount = 0
 }
-const setupOtherStats = (stats: Stats) => {
-  otherStats.dogCount = stats.dogs?.total || 0
-  otherStats.catCount = stats.cats?.total || 0
-  otherStats.butterflyCount = stats.butterfly?.total || 0
+const setupStats = (stats: Stats) => {
+  rolyPolyStats.eastCount = stats.rolyPoly?.east || 0
+  rolyPolyStats.westCount = stats.rolyPoly?.west || 0
+  rolyPolyStats.southCount = stats.rolyPoly?.south || 0
+  rolyPolyStats.northCount = stats.rolyPoly?.north || 0
+  otherStats.dogCount = stats.dogs || 0
+  otherStats.catCount = stats.cats || 0
+  otherStats.butterflyCount = stats.butterfly || 0
 }
 const setup = async (year: number) => {
+  if (year == 0) {
+    resetStats()
+    return
+  }
+
   const stats = await loadStatsFromS3({
     Bucket: BUCKET_NAME,
     Key: getObjectKey(year)
   })
-  setupRolyPolyStats(stats)
-  setupOtherStats(stats)
+  setupStats(stats)
 }
 const selectYear = (year: number) => {
   ;(async () => {

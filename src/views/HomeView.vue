@@ -74,22 +74,14 @@ const countUp = (label: string) => {
 const convertDataToStats = (): Stats => {
   return {
     rolyPoly: {
-      totals: {
-        east: rolyPolyCounts.eastCount,
-        west: rolyPolyCounts.westCount,
-        south: rolyPolyCounts.southCount,
-        north: rolyPolyCounts.northCount
-      }
+      east: rolyPolyCounts.eastCount,
+      west: rolyPolyCounts.westCount,
+      south: rolyPolyCounts.southCount,
+      north: rolyPolyCounts.northCount
     },
-    dogs: {
-      total: otherCounts.dogCount
-    },
-    cats: {
-      total: otherCounts.catCount
-    },
-    butterfly: {
-      total: otherCounts.butterflyCount
-    }
+    dogs: otherCounts.dogCount,
+    cats: otherCounts.catCount,
+    butterfly: otherCounts.butterflyCount
   }
 }
 /**
