@@ -1,4 +1,5 @@
 <script setup lang="ts">
+// emits
 const emits = defineEmits<{
   (event: 'count-up', label: string): void
   (event: 'end-count'): void

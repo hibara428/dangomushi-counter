@@ -2,11 +2,13 @@
 import { reactive } from 'vue'
 import StatsTable from '@/components/StatsTable.vue'
 import ContentTitle from '@/components/ContentTitle.vue'
+import YearsSelect from '@/components/YearsSelect.vue'
 import type { RolyPolyStatsProps } from '@/components/RolyPolyStatsTable.vue'
 import type { OtherStatsProps } from '@/components/OtherStatsTable.vue'
-import { loadStatsFromS3, type Stats, BUCKET_NAME, OBJECT_KEY } from '@/utils/stats'
+import { getObjectKey, loadStatsFromS3, type Stats, BUCKET_NAME } from '@/utils/stats'
 
 // data
+const startYear = 2022
 let rolyPolyStats: RolyPolyStatsProps = reactive({
   eastCount: 0,
   westCount: 0,
@@ -30,27 +32,29 @@ const setupOtherStats = (stats: Stats) => {
   otherStats.catCount = stats.cats?.total || 0
   otherStats.butterflyCount = stats.butterfly?.total || 0
 }
-const setup = async () => {
-  try {
-    const stats = await loadStatsFromS3({
-      Bucket: BUCKET_NAME,
-      Key: OBJECT_KEY
-    })
-    setupRolyPolyStats(stats)
-    setupOtherStats(stats)
-  } catch (error) {
-    console.error(error)
-  }
+const setup = async (year: number) => {
+  const stats = await loadStatsFromS3({
+    Bucket: BUCKET_NAME,
+    Key: getObjectKey(year)
+  })
+  setupRolyPolyStats(stats)
+  setupOtherStats(stats)
 }
-// init
-;(async () => {
-  await setup()
-})()
+const selectYear = (year: number) => {
+  ;(async () => {
+    try {
+      await setup(year)
+    } catch (error) {
+      console.error(error)
+    }
+  })()
+}
 </script>
 
 <template>
   <div class="container-fluid">
     <ContentTitle title="Statistics" />
+    <YearsSelect :start-year="startYear" @select-year="selectYear" />
     <StatsTable :roly-poly-stats="rolyPolyStats" :other-stats="otherStats" />
   </div>
 </template>

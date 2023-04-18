@@ -3,7 +3,7 @@ import type { GetObjectCommandInput, PutObjectCommandInput } from '@aws-sdk/clie
 
 // constants
 export const BUCKET_NAME = 'roly-poly-counter'
-export const OBJECT_KEY = 'data/data' + new Date().getFullYear() + '.json'
+export const OBJECT_DIR = 'data'
 // interfaces
 export interface Stats {
   rolyPoly: {
@@ -25,6 +25,16 @@ export interface Stats {
   }
 }
 // methods
+/**
+ * Get statistics object key.
+ *
+ * @param year
+ * @returns
+ */
+export const getObjectKey = (year?: number | undefined): string => {
+  const fileName = 'data' + (year || new Date().getFullYear()) + '.json'
+  return [OBJECT_DIR, fileName].join('/')
+}
 /**
  * Load statistics object from S3
  *

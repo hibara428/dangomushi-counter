@@ -7,11 +7,11 @@ import type { OtherCountsProps } from '@/components/OtherCountsTable.vue'
 import CounterPanel from '@/components/CounterPanel.vue'
 import {
   type Stats,
+  getObjectKey,
   loadStatsFromS3,
   saveStatsToS3,
   mergeStats,
-  BUCKET_NAME,
-  OBJECT_KEY
+  BUCKET_NAME
 } from '@/utils/stats'
 
 // data
@@ -101,7 +101,7 @@ const endCount = () => {
       // 累積データの取得
       const beforeStats = await loadStatsFromS3({
         Bucket: BUCKET_NAME,
-        Key: OBJECT_KEY
+        Key: getObjectKey()
       })
       const stats = convertDataToStats()
       // 累積データの更新
@@ -109,7 +109,7 @@ const endCount = () => {
       // 累積データの保存
       await saveStatsToS3({
         Bucket: BUCKET_NAME,
-        Key: OBJECT_KEY,
+        Key: getObjectKey(),
         Body: JSON.stringify(mergedStats)
       })
       // カウンタリセット
