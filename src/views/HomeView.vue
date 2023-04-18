@@ -2,8 +2,6 @@
 import { reactive } from 'vue'
 import ContentTitle from '@/components/ContentTitle.vue'
 import DailyCountsTable from '@/components/DailyCountsTable.vue'
-import type { RolyPolyCountsProps } from '@/components/RolyPolyCountsTable.vue'
-import type { OtherCountsProps } from '@/components/OtherCountsTable.vue'
 import CounterPanel from '@/components/CounterPanel.vue'
 import {
   type Stats,
@@ -11,33 +9,35 @@ import {
   loadStatsFromS3,
   saveStatsToS3,
   mergeStats,
-  BUCKET_NAME
+  BUCKET_NAME,
+  type DirectionCounts,
+  type OtherCounts
 } from '@/utils/stats'
 
 // data
-let rolyPolyCounts: RolyPolyCountsProps = reactive({
-  eastCount: 0,
-  westCount: 0,
-  southCount: 0,
-  northCount: 0
+let rolyPolyCounts: DirectionCounts = reactive({
+  east: 0,
+  west: 0,
+  south: 0,
+  north: 0
 })
-let otherCounts: OtherCountsProps = reactive({
-  dogCount: 0,
-  catCount: 0,
-  butterflyCount: 0
+let otherCounts: OtherCounts = reactive({
+  dog: 0,
+  cat: 0,
+  butterfly: 0
 })
 // methods
 /**
  * カウンタリセット
  */
 const reset = () => {
-  rolyPolyCounts.eastCount = 0
-  rolyPolyCounts.westCount = 0
-  rolyPolyCounts.southCount = 0
-  rolyPolyCounts.northCount = 0
-  otherCounts.dogCount = 0
-  otherCounts.catCount = 0
-  otherCounts.butterflyCount = 0
+  rolyPolyCounts.east = 0
+  rolyPolyCounts.west = 0
+  rolyPolyCounts.south = 0
+  rolyPolyCounts.north = 0
+  otherCounts.dog = 0
+  otherCounts.cat = 0
+  otherCounts.butterfly = 0
 }
 /**
  * カウントアップ
@@ -46,25 +46,34 @@ const reset = () => {
 const countUp = (label: string) => {
   switch (label) {
     case 'east':
-      rolyPolyCounts.eastCount++
+      rolyPolyCounts.east++
       break
     case 'west':
-      rolyPolyCounts.westCount++
+      rolyPolyCounts.west++
       break
     case 'south':
-      rolyPolyCounts.southCount++
+      rolyPolyCounts.south++
       break
     case 'north':
-      rolyPolyCounts.northCount++
+      rolyPolyCounts.north++
       break
     case 'dog':
-      otherCounts.dogCount++
+      if (!otherCounts.dog) {
+        otherCounts.dog = 0
+      }
+      otherCounts.dog++
       break
     case 'cat':
-      otherCounts.catCount++
+      if (!otherCounts.cat) {
+        otherCounts.cat = 0
+      }
+      otherCounts.cat++
       break
     case 'butterfly':
-      otherCounts.butterflyCount++
+      if (!otherCounts.butterfly) {
+        otherCounts.butterfly = 0
+      }
+      otherCounts.butterfly++
       break
   }
 }
@@ -74,14 +83,16 @@ const countUp = (label: string) => {
 const convertDataToStats = (): Stats => {
   return {
     rolyPoly: {
-      east: rolyPolyCounts.eastCount,
-      west: rolyPolyCounts.westCount,
-      south: rolyPolyCounts.southCount,
-      north: rolyPolyCounts.northCount
+      east: rolyPolyCounts.east,
+      west: rolyPolyCounts.west,
+      south: rolyPolyCounts.south,
+      north: rolyPolyCounts.north
     },
-    dogs: otherCounts.dogCount,
-    cats: otherCounts.catCount,
-    butterfly: otherCounts.butterflyCount
+    others: {
+      dog: otherCounts.dog || 0,
+      cat: otherCounts.cat || 0,
+      butterfly: otherCounts.butterfly || 0
+    }
   }
 }
 /**

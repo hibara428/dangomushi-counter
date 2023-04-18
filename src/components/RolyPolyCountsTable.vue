@@ -1,23 +1,23 @@
 <script setup lang="ts">
+import type { DirectionCounts } from '@/utils/stats'
 import { computed } from 'vue'
 
 // interfaces
 export interface RolyPolyCountsProps {
-  eastCount: number
-  westCount: number
-  southCount: number
-  northCount: number
+  counts: DirectionCounts
 }
 // props
 const props = withDefaults(defineProps<RolyPolyCountsProps>(), {
-  eastCount: 0,
-  westCount: 0,
-  southCount: 0,
-  northCount: 0
+  counts: () => ({
+    east: 0,
+    west: 0,
+    south: 0,
+    north: 0
+  })
 })
 // computed
 const sum = computed(() => {
-  return props.eastCount + props.westCount + props.southCount + props.northCount
+  return props.counts.east + props.counts.west + props.counts.south + props.counts.north
 })
 </script>
 
@@ -44,10 +44,10 @@ const sum = computed(() => {
     </thead>
     <tbody>
       <tr>
-        <td id="east-count">{{ eastCount }}</td>
-        <td id="west-count">{{ westCount }}</td>
-        <td id="south-count">{{ southCount }}</td>
-        <td id="north-count">{{ northCount }}</td>
+        <td id="east-count">{{ counts.east }}</td>
+        <td id="west-count">{{ counts.west }}</td>
+        <td id="south-count">{{ counts.south }}</td>
+        <td id="north-count">{{ counts.north }}</td>
         <td id="sum-count" class="table-warning fw-bold">{{ sum }}</td>
       </tr>
     </tbody>

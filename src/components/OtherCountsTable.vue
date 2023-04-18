@@ -1,12 +1,18 @@
 <script setup lang="ts">
+import type { OtherCounts } from '@/utils/stats'
+
 // interfaces
 export interface OtherCountsProps {
-  dogCount: number
-  catCount: number
-  butterflyCount: number
+  counts: OtherCounts
 }
 // props
-defineProps<OtherCountsProps>()
+withDefaults(defineProps<OtherCountsProps>(), {
+  counts: () => ({
+    dog: 0,
+    cat: 0,
+    butterfly: 0
+  })
+})
 </script>
 
 <template>
@@ -21,9 +27,9 @@ defineProps<OtherCountsProps>()
     </thead>
     <tbody>
       <tr>
-        <td id="dog-count">{{ dogCount }}</td>
-        <td id="cat-count">{{ catCount }}</td>
-        <td id="butterfly-count">{{ butterflyCount }}</td>
+        <td id="dog-count">{{ counts.dog }}</td>
+        <td id="cat-count">{{ counts.cat }}</td>
+        <td id="butterfly-count">{{ counts.butterfly }}</td>
       </tr>
     </tbody>
   </table>

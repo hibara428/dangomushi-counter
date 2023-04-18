@@ -1,40 +1,32 @@
 <script setup lang="ts">
-import RolyPolyCountsTable, { type RolyPolyCountsProps } from '@/components/RolyPolyCountsTable.vue'
-import OtherCountsTable, { type OtherCountsProps } from '@/components/OtherCountsTable.vue'
+import RolyPolyCountsTable from '@/components/RolyPolyCountsTable.vue'
+import OtherCountsTable from '@/components/OtherCountsTable.vue'
+import type { DirectionCounts, OtherCounts } from '@/utils/stats'
 
 // interfaces
 export interface DailyCountsTableProps {
-  rolyPolyCounts: RolyPolyCountsProps
-  otherCounts: OtherCountsProps
+  rolyPolyCounts: DirectionCounts
+  otherCounts: OtherCounts
 }
 // props
 withDefaults(defineProps<DailyCountsTableProps>(), {
   rolyPolyCounts: () => ({
-    eastCount: 0,
-    westCount: 0,
-    southCount: 0,
-    northCount: 0
+    east: 0,
+    west: 0,
+    south: 0,
+    north: 0
   }),
   otherCounts: () => ({
-    dogCount: 0,
-    catCount: 0,
-    butterflyCount: 0
+    dog: 0,
+    cat: 0,
+    butterfly: 0
   })
 })
 </script>
 
 <template>
   <section>
-    <RolyPolyCountsTable
-      :east-count="rolyPolyCounts.eastCount"
-      :west-count="rolyPolyCounts.westCount"
-      :south-count="rolyPolyCounts.southCount"
-      :north-count="rolyPolyCounts.northCount"
-    />
-    <OtherCountsTable
-      :dog-count="otherCounts.dogCount"
-      :cat-count="otherCounts.catCount"
-      :butterfly-count="otherCounts.butterflyCount"
-    />
+    <RolyPolyCountsTable :counts="rolyPolyCounts" />
+    <OtherCountsTable :counts="otherCounts" />
   </section>
 </template>

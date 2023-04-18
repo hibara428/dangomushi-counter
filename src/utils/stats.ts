@@ -11,11 +11,14 @@ export interface DirectionCounts {
   south: number
   north: number
 }
+export interface OtherCounts {
+  dog?: number
+  cat?: number
+  butterfly?: number
+}
 export interface Stats {
   rolyPoly?: DirectionCounts
-  dogs?: number
-  cats?: number
-  butterfly?: number
+  others?: OtherCounts
 }
 // methods
 /**
@@ -70,8 +73,10 @@ export const mergeStats = (beforeStats: Stats, stats: Stats): Stats => {
       south: (beforeStats.rolyPoly?.south || 0) + (stats.rolyPoly?.south || 0),
       north: (beforeStats.rolyPoly?.north || 0) + (stats.rolyPoly?.north || 0)
     },
-    dogs: (beforeStats.dogs || 0) + (stats.dogs || 0),
-    cats: (beforeStats.cats || 0) + (stats.cats || 0),
-    butterfly: (beforeStats.butterfly || 0) + (stats.butterfly || 0)
+    others: {
+      dog: (beforeStats.others?.dog || 0) + (stats.others?.dog || 0),
+      cat: (beforeStats.others?.cat || 0) + (stats.others?.cat || 0),
+      butterfly: (beforeStats.others?.butterfly || 0) + (stats.others?.butterfly || 0)
+    }
   }
 }
