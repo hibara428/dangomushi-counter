@@ -11,6 +11,8 @@ import {
   type DirectionCounts,
   type OtherCounts
 } from '@/utils/stats'
+import { useLoading } from 'vue-loading-overlay'
+import 'vue-loading-overlay/dist/css/index.css'
 
 // data
 const startYear = 2022
@@ -25,6 +27,7 @@ let otherCounts: OtherCounts = reactive({
   cat: 0,
   butterfly: 0
 })
+const $loading = useLoading({ isFullPage: true })
 // methods
 const resetStats = () => {
   rolyPolyCounts.east = 0
@@ -58,10 +61,14 @@ const setup = async (year: number) => {
 }
 const selectYear = (year: number) => {
   ;(async () => {
+    const loader = $loading.show()
+
     try {
       await setup(year)
     } catch (error) {
       console.error(error)
+    } finally {
+      loader.hide()
     }
   })()
 }

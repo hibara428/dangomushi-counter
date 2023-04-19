@@ -13,6 +13,8 @@ import {
   type DirectionCounts,
   type OtherCounts
 } from '@/utils/stats'
+import { useLoading } from 'vue-loading-overlay'
+import 'vue-loading-overlay/dist/css/index.css'
 
 // data
 let rolyPolyCounts: DirectionCounts = reactive({
@@ -26,6 +28,7 @@ let otherCounts: OtherCounts = reactive({
   cat: 0,
   butterfly: 0
 })
+const $loading = useLoading({ isFullPage: true })
 // methods
 /**
  * カウンタリセット
@@ -100,6 +103,7 @@ const convertDataToStats = (): Stats => {
  */
 const endCount = () => {
   ;(async () => {
+    const loader = $loading.show()
     try {
       // 累積データの取得
       const beforeStats = await loadStatsFromS3({
@@ -119,6 +123,8 @@ const endCount = () => {
       reset()
     } catch (error) {
       console.error(error)
+    } finally {
+      loader.hide()
     }
   })()
 }
