@@ -28,8 +28,6 @@ if [ "${action}" = "create" ] || [ "${action}" = "update" ]; then
             ParameterKey=AcmCertificateArn,ParameterValue="${acm_certificate_arn}" \
             ParameterKey=GitHubOrgName,ParameterValue="${GITHUB_ORG_NAME}" \
             ParameterKey=GitHubRepoName,ParameterValue="${STACK_NAME}"
-    # Sync
-    aws s3 cp --recursive ./public s3://${STACK_NAME}/ --exclude ".DS_Store" --exclude "data/data.json"
 elif [ "${action}" = "delete" ]; then
     aws cloudformation delete-stack --stack-name "${STACK_NAME}"
 else
