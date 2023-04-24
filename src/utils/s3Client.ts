@@ -8,8 +8,8 @@ import {
 } from '@aws-sdk/client-s3'
 import { fromCognitoIdentityPool } from '@aws-sdk/credential-providers'
 
-const REGION = 'ap-northeast-1'
-const IDENTITY_POOL_ID = 'ap-northeast-1:737d9df2-e342-4665-9c7d-54fb9f3dbda1'
+const REGION = import.meta.env.VITE_REGION || 'ap-northeast-1'
+const IDENTITY_POOL_ID = import.meta.env.VITE_IDENTITY_POOL_ID || ''
 const s3Client = new S3Client({
   region: REGION,
   credentials: fromCognitoIdentityPool({

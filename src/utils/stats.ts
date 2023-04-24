@@ -2,8 +2,8 @@ import { getObject, putObject } from '@/utils/s3Client'
 import type { GetObjectCommandInput, PutObjectCommandInput } from '@aws-sdk/client-s3'
 
 // constants
-export const BUCKET_NAME = 'roly-poly-counter'
-export const OBJECT_DIR = 'data'
+export const BUCKET_NAME = import.meta.env.VITE_BUCKET_NAME || 'roly-poly-counter'
+export const OBJECT_DIR = import.meta.env.VITE_OBJECT_DIR || 'data'
 // interfaces
 export interface DirectionCounts {
   east: number

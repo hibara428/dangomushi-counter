@@ -28,4 +28,5 @@ coverage
 *.sw?
 
 # App
+.env
 public/data/data*.json
