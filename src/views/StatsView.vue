@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { reactive } from 'vue'
+import { useStore } from 'vuex'
+import { key } from '../stores'
 import StatsTable from '@/components/StatsTable.vue'
 import ContentTitle from '@/components/ContentTitle.vue'
 import YearsSelect from '@/components/YearsSelect.vue'
@@ -15,6 +17,7 @@ import { useLoading } from 'vue-loading-overlay'
 import 'vue-loading-overlay/dist/css/index.css'
 
 // data
+const store = useStore(key)
 const startYear = 2022
 let rolyPolyCounts: DirectionCounts = reactive({
   east: 0,
@@ -67,6 +70,7 @@ const selectYear = (year: number) => {
       await setup(year)
     } catch (error) {
       console.error(error)
+      store.state.errors.push('Failed to load the state of year.')
     } finally {
       loader.hide()
     }
@@ -75,9 +79,7 @@ const selectYear = (year: number) => {
 </script>
 
 <template>
-  <div class="container-fluid">
-    <ContentTitle title="Statistics" />
-    <YearsSelect :start-year="startYear" @select-year="selectYear" />
-    <StatsTable :roly-poly-counts="rolyPolyCounts" :other-counts="otherCounts" />
-  </div>
+  <ContentTitle title="Statistics" />
+  <YearsSelect :start-year="startYear" @select-year="selectYear" />
+  <StatsTable :roly-poly-counts="rolyPolyCounts" :other-counts="otherCounts" />
 </template>

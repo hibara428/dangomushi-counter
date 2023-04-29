@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { reactive } from 'vue'
+import { useStore } from 'vuex'
+import { key } from '../stores'
 import ContentTitle from '@/components/ContentTitle.vue'
 import DailyCountsTable from '@/components/DailyCountsTable.vue'
 import CounterPanel from '@/components/CounterPanel.vue'
@@ -17,6 +19,7 @@ import { useLoading } from 'vue-loading-overlay'
 import 'vue-loading-overlay/dist/css/index.css'
 
 // data
+const store = useStore(key)
 let rolyPolyCounts: DirectionCounts = reactive({
   east: 0,
   west: 0,
@@ -119,10 +122,12 @@ const endCount = () => {
         Key: getObjectKey(),
         Body: JSON.stringify(mergedStats)
       })
+      store.state.messages.push('Success!')
       // カウンタリセット
       reset()
     } catch (error) {
       console.error(error)
+      store.state.errors.push('Failed to save the state.')
     } finally {
       loader.hide()
     }
@@ -131,9 +136,7 @@ const endCount = () => {
 </script>
 
 <template>
-  <div class="container-fluid">
-    <ContentTitle title="Daily Counter" />
-    <DailyCountsTable :roly-poly-counts="rolyPolyCounts" :other-counts="otherCounts" />
-  </div>
+  <ContentTitle title="Daily Counter" />
+  <DailyCountsTable :roly-poly-counts="rolyPolyCounts" :other-counts="otherCounts" />
   <CounterPanel @count-up="countUp" @end-count="endCount" />
 </template>

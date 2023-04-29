@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
+import MessagesPanel from '@/components/MessagesPanel.vue'
 </script>
 
 <template>
@@ -8,7 +9,7 @@ import { RouterLink, RouterView } from 'vue-router'
       <a class="navbar-brand" href="/">
         <img
           src="@/assets/img/roly-poly.png"
-          alt=""
+          alt="roly-poly"
           width="30"
           height="24"
           class="d-inline-block align-text-top"
@@ -39,10 +40,14 @@ import { RouterLink, RouterView } from 'vue-router'
         </ul>
       </div>
     </nav>
+
+    <MessagesPanel />
   </header>
 
   <main class="my-2">
-    <RouterView />
+    <div class="container-fluid">
+      <RouterView />
+    </div>
   </main>
 
   <footer class="border-top py-2">
