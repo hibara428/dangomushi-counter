@@ -36,4 +36,4 @@ jobs:
       - name: Build
         run: npm run build
       - name: Deploy
-        run: ./infra/bin/sync.sh
+        run: ./infra/bin/sync.sh ${{ secrets.AWS_S3_BUCKET }}

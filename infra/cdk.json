@@ -1,0 +1,7 @@
+{
+  "app": "npx ts-node --prefer-ts-exts bin/infrastructure.ts",
+  "context": {
+    "app-name": "roly-poly-counter",
+    "@aws-cdk/core:stackRelativeExports": "true"
+  }
+}

@@ -2,14 +2,19 @@
 # Sync files.
 
 # Constants
-BUCKET_NAME=roly-poly-counter
+USAGE="Usage: $(basename ${0}) BUCKET_NAME <AWS_PROFILE>"
 
 # Parameters
-profile_line=""
-if [ $# -ge 1 ]; then
-    profile_line="--profile ${1}"
+if [ $# -lt 1 ] || [ $# -gt 2 ]; then
+  echo "${USAGE}"
+  exit 1
 fi
+profile=""
+if [ $# -ge 2 ]; then
+    profile="--profile ${2}"
+fi
+bucket_name=${1}
 
 # Sync
-aws s3 sync ${profile_line} ./dist s3://${BUCKET_NAME}/ --exclude ".DS_Store" --exclude "assets/*"
-aws s3 sync ${profile_line} ./dist/assets s3://${BUCKET_NAME}/assets/ --exclude ".DS_Store" --delete
+aws s3 sync ${profile} ./dist "s3://${bucket_name}/" --exclude ".DS_Store" --exclude "assets/*"
+aws s3 sync ${profile} ./dist/assets "s3://${bucket_name}/assets/" --exclude ".DS_Store" --delete

@@ -2,32 +2,30 @@
 
 ## Deployment
 
-- Create OAuth providers
+- Create OAuth providers:
 
 Google OAuth, etc
 
-- Set up `.env.cfn` and `.env`
+- Build infrastructures with CFn:
+
+Please read the [infra/README.md](infra/README.md).
+
+- Set the redirect URI of OAuth providers:
+
+Set the redirect URI of OAuth providers with created Cognito client domain.
+
+- Set environment variables for application:
 
 ```bash
-cp .env.cfn.example .env.cfn
-vi .env.cfn
 cp .env.example .env
 vi .env
 ```
 
-- Set up infrastructure with CFn
-
-```bash
-./infra/bin/deploy.sh create|update|delete <AWS_PROFILE>
-```
-
-- Set up OAuth
-
-Set a created Cognito domain to OAuth providers.
-
-- Deploy code
+- Build & Deploy the application:
 
 ```bash
 npm run build
 ./infra/bin/sync.sh <AWS_PROFILE>
 ```
+
+or GitHub Actions workflow.
