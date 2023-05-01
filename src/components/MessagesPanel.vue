@@ -43,9 +43,11 @@ const messages = store.state.messages
 .alert-show {
   border-radius: 0;
   display: block;
+  margin: 0;
 }
 .alert-hidden {
   border-radius: 0;
   display: none;
+  margin: 0;
 }
 </style>
