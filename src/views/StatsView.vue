@@ -56,9 +56,12 @@ const setup = async (year: number) => {
     return
   }
 
+  if (!store.state.loginUser?.email) {
+    throw new Error('Login user is not found.')
+  }
   const stats = await loadStatsFromS3({
     Bucket: BUCKET_NAME,
-    Key: getObjectKey(year)
+    Key: getObjectKey(store.state.loginUser.email, year)
   })
   setupStats(stats)
 }

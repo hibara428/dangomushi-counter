@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useStore } from 'vuex'
-import { key } from '../stores'
+import { key } from '@/stores'
 
 const store = useStore(key)
 const errors = store.state.errors

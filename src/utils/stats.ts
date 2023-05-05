@@ -4,6 +4,7 @@ import type { GetObjectCommandInput, PutObjectCommandInput } from '@aws-sdk/clie
 // constants
 export const BUCKET_NAME = import.meta.env.VITE_BUCKET_NAME || 'roly-poly-counter'
 export const OBJECT_DIR = import.meta.env.VITE_OBJECT_DIR || 'data'
+
 // interfaces
 export interface DirectionCounts {
   east: number
@@ -20,6 +21,7 @@ export interface Stats {
   rolyPoly?: DirectionCounts
   others?: OtherCounts
 }
+
 // methods
 /**
  * Get statistics file name.
@@ -33,11 +35,12 @@ const getFileName = (year?: number | undefined): string => {
 /**
  * Get statistics object key.
  *
+ * @param email
  * @param year
  * @returns
  */
-export const getObjectKey = (year?: number | undefined): string => {
-  return [OBJECT_DIR, getFileName(year)].join('/')
+export const getObjectKey = (email: string, year?: number | undefined): string => {
+  return [OBJECT_DIR, email, getFileName(year)].join('/')
 }
 /**
  * Load statistics object from S3

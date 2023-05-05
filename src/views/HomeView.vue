@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { reactive } from 'vue'
 import { useStore } from 'vuex'
-import { key } from '../stores'
+import { key } from '@/stores'
 import ContentTitle from '@/components/ContentTitle.vue'
 import DailyCountsTable from '@/components/DailyCountsTable.vue'
 import CounterPanel from '@/components/CounterPanel.vue'
@@ -108,21 +108,31 @@ const endCount = () => {
   ;(async () => {
     const loader = $loading.show()
     try {
-      // 累積データの取得
-      const beforeStats = await loadStatsFromS3({
-        Bucket: BUCKET_NAME,
-        Key: getObjectKey()
-      })
-      const stats = convertDataToStats()
-      // 累積データの更新
-      const mergedStats = mergeStats(beforeStats, stats)
+      if (!store.state.loginUser?.email) {
+        throw new Error('Login user is not found.')
+      }
+
+      let stats: Stats = convertDataToStats()
+      let isNew = false
+
+      try {
+        // 累積データの取得
+        const beforeStats = await loadStatsFromS3({
+          Bucket: BUCKET_NAME,
+          Key: getObjectKey(store.state.loginUser.email)
+        })
+        // 累積データとのマージ
+        stats = mergeStats(beforeStats, stats)
+      } catch (error) {
+        isNew = true
+      }
       // 累積データの保存
       await saveStatsToS3({
         Bucket: BUCKET_NAME,
-        Key: getObjectKey(),
-        Body: JSON.stringify(mergedStats)
+        Key: getObjectKey(store.state.loginUser.email),
+        Body: JSON.stringify(stats)
       })
-      store.state.messages.push('Success!')
+      store.state.messages.push('Saved!' + (isNew ? ' (New creation)' : ''))
       // カウンタリセット
       reset()
     } catch (error) {
