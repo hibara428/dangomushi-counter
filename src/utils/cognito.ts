@@ -3,6 +3,8 @@ import jwt_decode from 'jwt-decode'
 
 // constants
 const COGNITO_BASE_PREFIX = 'CognitoIdentityServiceProvider'
+const USER_POOLL_APP_CLIENT_URL = import.meta.env.VITE_USER_POOL_APP_CLIENT_URL || ''
+const USER_POOL_APP_CLIENT_ID = import.meta.env.VITE_USER_POOL_APP_CLIENT_ID || ''
 
 // interfaces
 type TokenName = 'idToken' | 'refreshToken' | 'accessToken' | 'tokenScopesString' | 'LastAuthUser'
@@ -101,4 +103,20 @@ export class CognitoCookieParser {
       ? [COGNITO_BASE_PREFIX, userPoolAppId, lastAuthUser].join('.')
       : [COGNITO_BASE_PREFIX, userPoolAppId].join('.')
   }
+}
+
+/**
+ * Build a logout URL.
+ *
+ * @returns Logout URL
+ */
+export const buildLogoutUrl = (): string => {
+  const params = new URLSearchParams({
+    response_type: 'code',
+    client_id: USER_POOL_APP_CLIENT_ID,
+    redirect_uri: location.origin,
+    state: 'STATE',
+    scope: 'openid profile'
+  })
+  return USER_POOLL_APP_CLIENT_URL + '/logout?' + params.toString()
 }

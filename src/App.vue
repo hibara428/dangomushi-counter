@@ -3,13 +3,14 @@ import { RouterLink, RouterView } from 'vue-router'
 import MessagesPanel from '@/components/MessagesPanel.vue'
 import { useStore } from 'vuex'
 import { key } from '@/stores'
-import { CognitoCookieParser } from '@/utils/cognito'
+import { CognitoCookieParser, buildLogoutUrl } from '@/utils/cognito'
 
 const store = useStore(key)
 if (store.state.loginUser === undefined) {
   const userPoolAppClientId = import.meta.env.VITE_USER_POOL_APP_CLIENT_ID || ''
   store.state.loginUser = new CognitoCookieParser().parse(userPoolAppClientId)
 }
+const logoutUrl = buildLogoutUrl()
 </script>
 
 <template>
@@ -45,6 +46,9 @@ if (store.state.loginUser === undefined) {
           </li>
           <li class="nav-item">
             <RouterLink to="/stats" class="nav-link">Stats</RouterLink>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" :href="logoutUrl">Logout</a>
           </li>
         </ul>
       </div>
