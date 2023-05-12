@@ -14,6 +14,12 @@ export interface CognitoUser {
 
 // classes
 export class CognitoCookieParser {
+  /**
+   * Parse cookies.
+   *
+   * @param userPoolAppId Cognito user pool app ID
+   * @returns Cognito user
+   */
   parse = (userPoolAppId: string): CognitoUser | undefined => {
     const idToken = this.getIdToken(userPoolAppId)
     if (!idToken) {

@@ -2,7 +2,6 @@ import { Stack, StackProps, CfnOutput } from 'aws-cdk-lib'
 import { Construct } from 'constructs'
 import { WebUserPool } from './constructs/app-user-pool'
 import { AppCdn } from './constructs/app-cdn'
-import { AppIdp } from './constructs/app-idp'
 import { AppDeployRole } from './constructs/app-deploy-role'
 
 type AppStackProps = StackProps & {
@@ -38,15 +37,8 @@ export class AppStack extends Stack {
       .withCDN()
       .withUserPool(userPool)
 
-    // Add API accesses to UserPool
-    userPool.withApiAccess('ApiIDPlaceholder')
-
-    // Cognito Idp for App
-    const unAuthIdp = new AppIdp(this, 'web-unauth-idp', {
-      appName: props.appName,
-      bucketArn: cdn.getBucketArn(),
-      dataKeyPrefix: props.dataKeyPrefix
-    })
+    // Add S3 accesses to UserPool
+    userPool.withS3Access(cdn.getBucketArn(), props.dataKeyPrefix)
 
     // IAM role for deploy
     new AppDeployRole(this, 'deploy-role', {
@@ -79,11 +71,6 @@ export class AppStack extends Stack {
     new CfnOutput(this, 'IdentityPoolArn', {
       exportName: `${this.stackName}-IdentityPool`,
       value: userPool.getIdentityPoolId()
-    })
-
-    new CfnOutput(this, 'UnAuthorizedIdentityPoolArn', {
-      exportName: `${this.stackName}-UnAuthorizedIdentityPool`,
-      value: unAuthIdp.getUnderlyingIdentityPool().ref
     })
 
     new CfnOutput(this, 'UserPoolId', {

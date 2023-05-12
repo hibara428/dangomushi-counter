@@ -3,13 +3,12 @@ import { RouterLink, RouterView } from 'vue-router'
 import MessagesPanel from '@/components/MessagesPanel.vue'
 import { useStore } from 'vuex'
 import { key } from '@/stores'
-import { CognitoCookieParser } from './utils/cognito'
+import { CognitoCookieParser } from '@/utils/cognito'
 
 const store = useStore(key)
 if (store.state.loginUser === undefined) {
   const userPoolAppClientId = import.meta.env.VITE_USER_POOL_APP_CLIENT_ID || ''
-  const cognitoUser = new CognitoCookieParser().parse(userPoolAppClientId)
-  store.state.loginUser = cognitoUser
+  store.state.loginUser = new CognitoCookieParser().parse(userPoolAppClientId)
 }
 </script>
 

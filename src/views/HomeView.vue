@@ -6,12 +6,9 @@ import ContentTitle from '@/components/ContentTitle.vue'
 import DailyCountsTable from '@/components/DailyCountsTable.vue'
 import CounterPanel from '@/components/CounterPanel.vue'
 import {
-  type Stats,
-  getObjectKey,
+  Stats,
   loadStatsFromS3,
   saveStatsToS3,
-  mergeStats,
-  BUCKET_NAME,
   type DirectionCounts,
   type OtherCounts
 } from '@/utils/stats'
@@ -87,19 +84,19 @@ const countUp = (label: string) => {
  * 統計データの変換
  */
 const convertDataToStats = (): Stats => {
-  return {
-    rolyPoly: {
+  return new Stats(
+    {
       east: rolyPolyCounts.east,
       west: rolyPolyCounts.west,
       south: rolyPolyCounts.south,
       north: rolyPolyCounts.north
     },
-    others: {
+    {
       dog: otherCounts.dog || 0,
       cat: otherCounts.cat || 0,
       butterfly: otherCounts.butterfly || 0
     }
-  }
+  )
 }
 /**
  * 記録終了
@@ -108,7 +105,7 @@ const endCount = () => {
   ;(async () => {
     const loader = $loading.show()
     try {
-      if (!store.state.loginUser?.email) {
+      if (!store.state.loginUser) {
         throw new Error('Login user is not found.')
       }
 
@@ -117,21 +114,14 @@ const endCount = () => {
 
       try {
         // 累積データの取得
-        const beforeStats = await loadStatsFromS3({
-          Bucket: BUCKET_NAME,
-          Key: getObjectKey(store.state.loginUser.email)
-        })
+        const beforeStats = await loadStatsFromS3(store.state.loginUser)
         // 累積データとのマージ
-        stats = mergeStats(beforeStats, stats)
+        stats = beforeStats.merge(stats)
       } catch (error) {
         isNew = true
       }
       // 累積データの保存
-      await saveStatsToS3({
-        Bucket: BUCKET_NAME,
-        Key: getObjectKey(store.state.loginUser.email),
-        Body: JSON.stringify(stats)
-      })
+      await saveStatsToS3(store.state.loginUser, stats)
       store.state.messages.push('Saved!' + (isNew ? ' (New creation)' : ''))
       // カウンタリセット
       reset()

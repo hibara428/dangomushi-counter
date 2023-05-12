@@ -101,25 +101,15 @@ export class WebUserPool extends Construct {
     return this
   }
 
-  withApiAccess(restApiId: string): WebUserPool {
-    const stack = Stack.of(this)
-
-    /* Identity Pool for REST api access */
-
+  withS3Access(bucketArn: string, dataKeyPrefix: string): WebUserPool {
     this._identityPool = new IdentityPool(this, 'my-app-identity-pool', {
       identityPoolName: `${this._appName.replace(/[^a-zA-Z0-9]/gu, '_')}_identity_pool`,
       userPoolProviderName: this._userPool.userPoolProviderName,
       userPoolClientId: this._userPoolClient.userPoolClientId,
-      /* 
-        Grant permissions for every authenticated user to call REST apis. 
-        This policy will grant execute permissions on a specific API, all stages, methods, and resources.
-        See 'Control access for invoking an API ' for more information:  
-        https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-control-access-using-iam-policies-to-invoke-api.html 
-      */
       authenticatedRolePolicies: [
         new iam.PolicyStatement({
-          actions: ['execute-api:Invoke'],
-          resources: [`arn:aws:execute-api:${stack.region}:${stack.account}:${restApiId}/*/*/*`]
+          actions: ['s3:DeleteObject', 's3:GetObject', 's3:PutObject', 's3:PutObjectAcl'],
+          resources: [[bucketArn, dataKeyPrefix, '*'].join('/')]
         })
       ]
     })

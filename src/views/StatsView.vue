@@ -5,14 +5,7 @@ import { key } from '../stores'
 import StatsTable from '@/components/StatsTable.vue'
 import ContentTitle from '@/components/ContentTitle.vue'
 import YearsSelect from '@/components/YearsSelect.vue'
-import {
-  getObjectKey,
-  loadStatsFromS3,
-  type Stats,
-  BUCKET_NAME,
-  type DirectionCounts,
-  type OtherCounts
-} from '@/utils/stats'
+import { loadStatsFromS3, type Stats, type DirectionCounts, type OtherCounts } from '@/utils/stats'
 import { useLoading } from 'vue-loading-overlay'
 import 'vue-loading-overlay/dist/css/index.css'
 
@@ -56,13 +49,10 @@ const setup = async (year: number) => {
     return
   }
 
-  if (!store.state.loginUser?.email) {
+  if (!store.state.loginUser) {
     throw new Error('Login user is not found.')
   }
-  const stats = await loadStatsFromS3({
-    Bucket: BUCKET_NAME,
-    Key: getObjectKey(store.state.loginUser.email, year)
-  })
+  const stats = await loadStatsFromS3(store.state.loginUser)
   setupStats(stats)
 }
 const selectYear = (year: number) => {
