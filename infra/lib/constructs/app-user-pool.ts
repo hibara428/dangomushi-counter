@@ -53,7 +53,7 @@ export class WebUserPool extends Construct {
     return this
   }
 
-  withIdentityProvider(identityProviderSecretName: string, region: string): WebUserPool {
+  withIdentityProvider(identityProviderSecretName: string): WebUserPool {
     this._userPool.registerIdentityProvider(
       new UserPoolIdentityProviderGoogle(this, 'oidc-provider', {
         userPool: this._userPool,

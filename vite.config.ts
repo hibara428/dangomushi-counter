@@ -1,5 +1,4 @@
 import { fileURLToPath, URL } from 'node:url'
-
 import { defineConfig, loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
@@ -20,6 +19,7 @@ export default defineConfig({
  * @example `%VITE_MY_ENV%`
  * @see https://vitejs.dev/guide/api-plugin.html#transformindexhtml
  */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 function htmlPlugin(env: ReturnType<typeof loadEnv>) {
   return {
     name: 'html-transform',
