@@ -104,7 +104,7 @@ export const loadStatsFromS3 = async (loginUser: CognitoUser): Promise<Stats> =>
   )
   const data = await response?.Body?.transformToString()
   const parsed = JSON.parse(data || '{}')
-  if (parsed.rolyPoly === undefined || parsed.others === undefined) {
+  if (parsed.rolyPoly == null || parsed.others == null) {
     throw new Error('Invalid stats file.')
   }
   return new Stats(parsed.rolyPoly, parsed.others)

@@ -1,4 +1,4 @@
-import type { CognitoUser } from '@/utils/cognito'
+import { CognitoCookieParser, type CognitoUser } from '@/utils/cognito'
 import type { InjectionKey } from 'vue'
 import { createStore, Store } from 'vuex'
 
@@ -14,6 +14,6 @@ export const store = createStore<State>({
   state: {
     errors: [],
     messages: [],
-    loginUser: undefined
+    loginUser: new CognitoCookieParser().parse()
   }
 })

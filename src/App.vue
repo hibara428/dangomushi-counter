@@ -3,13 +3,14 @@ import { RouterLink, RouterView } from 'vue-router'
 import MessagesPanel from '@/components/MessagesPanel.vue'
 import { useStore } from 'vuex'
 import { key } from '@/stores'
-import { CognitoCookieParser, buildLogoutUrl } from '@/utils/cognito'
+import { buildLogoutUrl } from '@/utils/cognito'
 
-const store = useStore(key)
-if (store.state.loginUser === undefined) {
-  store.state.loginUser = new CognitoCookieParser().parse()
-}
 const logoutUrl = buildLogoutUrl()
+const store = useStore(key)
+if (store.state.loginUser == null) {
+  // Redirect to login page.
+  window.location.href = logoutUrl
+}
 </script>
 
 <template>
