@@ -3,8 +3,8 @@ import jwt_decode from 'jwt-decode'
 
 // constants
 const COGNITO_BASE_PREFIX = 'CognitoIdentityServiceProvider'
-const USER_POOLL_APP_CLIENT_URL = import.meta.env.VITE_USER_POOL_APP_CLIENT_URL || ''
-const USER_POOL_APP_CLIENT_ID = import.meta.env.VITE_USER_POOL_APP_CLIENT_ID || ''
+const USER_POOLL_APP_CLIENT_URL = import.meta.env.VITE_AWS_COGNITO_USER_POOL_APP_CLIENT_URL || ''
+const USER_POOL_APP_CLIENT_ID = import.meta.env.VITE_AWS_COGNITO_USER_POOL_APP_CLIENT_ID || ''
 
 // interfaces
 type TokenName = 'idToken' | 'refreshToken' | 'accessToken' | 'tokenScopesString' | 'LastAuthUser'
@@ -19,11 +19,10 @@ export class CognitoCookieParser {
   /**
    * Parse cookies.
    *
-   * @param userPoolAppId Cognito user pool app ID
    * @returns Cognito user
    */
-  parse = (userPoolAppId: string): CognitoUser | undefined => {
-    const idToken = this.getIdToken(userPoolAppId)
+  parse = (): CognitoUser | undefined => {
+    const idToken = this.getIdToken(USER_POOL_APP_CLIENT_ID)
     if (!idToken) {
       return undefined
     }

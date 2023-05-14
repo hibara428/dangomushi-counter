@@ -3,7 +3,7 @@ import { getS3Client } from '@/utils/s3client'
 import type { CognitoUser } from '@/utils/cognito'
 
 // constants
-const BUCKET_NAME = import.meta.env.VITE_BUCKET_NAME || 'roly-poly-counter'
+const BUCKET_NAME = import.meta.env.VITE_AWS_S3_BUCKET || 'roly-poly-counter'
 const OBJECT_DIR = import.meta.env.VITE_OBJECT_DIR || 'data'
 
 // interfaces

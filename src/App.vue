@@ -7,8 +7,7 @@ import { CognitoCookieParser, buildLogoutUrl } from '@/utils/cognito'
 
 const store = useStore(key)
 if (store.state.loginUser === undefined) {
-  const userPoolAppClientId = import.meta.env.VITE_USER_POOL_APP_CLIENT_ID || ''
-  store.state.loginUser = new CognitoCookieParser().parse(userPoolAppClientId)
+  store.state.loginUser = new CognitoCookieParser().parse()
 }
 const logoutUrl = buildLogoutUrl()
 </script>

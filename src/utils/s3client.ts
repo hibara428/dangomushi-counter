@@ -2,9 +2,9 @@ import { S3Client } from '@aws-sdk/client-s3'
 import { fromCognitoIdentityPool } from '@aws-sdk/credential-providers'
 
 // constants
-const REGION = import.meta.env.VITE_REGION || 'ap-northeast-1'
-const USER_POOL_ID = import.meta.env.VITE_USER_POOL_ID || ''
-const IDENTITY_POOL_ID = import.meta.env.VITE_IDENTITY_POOL_ID || ''
+const REGION = import.meta.env.VITE_AWS_REGION || 'ap-northeast-1'
+const USER_POOL_ID = import.meta.env.VITE_AWS_COGNITO_USER_POOL_ID || ''
+const IDENTITY_POOL_ID = import.meta.env.VITE_AWS_COGNITO_IDENTITY_POOL_ID || ''
 
 // methods
 /**
