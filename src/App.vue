@@ -50,6 +50,9 @@ if (store.state.loginUser == null) {
           <li class="nav-item">
             <a class="nav-link" :href="logoutUrl">Logout</a>
           </li>
+          <li class="nav-item">
+            <span class="nav-link disabled">[{{ store.state.loginUser?.email }}]</span>
+          </li>
         </ul>
       </div>
     </nav>

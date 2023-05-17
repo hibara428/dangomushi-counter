@@ -10,10 +10,18 @@ export interface State {
 
 export const key: InjectionKey<Store<State>> = Symbol()
 
+const isLocalDevEnv = () => window.location.host === 'localhost:5173'
+
 export const store = createStore<State>({
   state: {
     errors: [],
     messages: [],
-    loginUser: new CognitoCookieParser().parse()
+    loginUser: !isLocalDevEnv()
+      ? new CognitoCookieParser().parse()
+      : {
+          idToken: '',
+          payload: {},
+          email: 'hibara428@gmail.com'
+        }
   }
 })
