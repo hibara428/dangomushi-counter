@@ -5,10 +5,11 @@ import { useStore } from 'vuex'
 import { key } from '@/stores'
 import { buildLogoutUrl } from '@/utils/cognito'
 
-const logoutUrl = buildLogoutUrl()
 const store = useStore(key)
-if (store.state.loginUser == null) {
-  // Redirect to login page.
+const logoutUrl = buildLogoutUrl()
+const isLogoutEndpoint = window.location.pathname == '/logout'
+if (store.state.loginUser == null && !isLogoutEndpoint) {
+  // Redirect to login page if it is not logout endpoint.
   window.location.href = logoutUrl
 }
 </script>
@@ -28,6 +29,7 @@ if (store.state.loginUser == null) {
       </a>
 
       <button
+        v-if="!isLogoutEndpoint"
         class="navbar-toggler"
         type="button"
         data-toggle="collapse"
@@ -39,7 +41,7 @@ if (store.state.loginUser == null) {
         <span class="navbar-toggler-icon"></span>
       </button>
 
-      <div class="collapse navbar-collapse" id="navbarNav">
+      <div v-if="!isLogoutEndpoint" class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
           <li class="nav-item">
             <RouterLink to="/" class="nav-link">Home</RouterLink>

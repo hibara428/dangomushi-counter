@@ -73,7 +73,7 @@ export class WebUserPool extends Construct {
     return this
   }
 
-  withClient(callbackUrls: string[]): WebUserPool {
+  withClient(callbackUrls: string[], logoutUrls: string[]): WebUserPool {
     this._userPoolClient = this._userPool.addClient('web-client', {
       userPoolClientName: `${this._appName.replace(/[^a-zA-Z0-9]/gu, '-')}-web-client`,
       supportedIdentityProviders: this._userPool.identityProviders.map((idp) =>
@@ -94,7 +94,7 @@ export class WebUserPool extends Construct {
         },
         scopes: [cognito.OAuthScope.OPENID, cognito.OAuthScope.EMAIL, cognito.OAuthScope.PROFILE],
         callbackUrls,
-        logoutUrls: callbackUrls
+        logoutUrls
       }
     })
 

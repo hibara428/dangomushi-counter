@@ -1,4 +1,4 @@
-import { getCookie } from 'typescript-cookie'
+import { getCookie, getCookies, removeCookie } from 'typescript-cookie'
 import jwt_decode from 'jwt-decode'
 
 // constants
@@ -104,6 +104,7 @@ export class CognitoCookieParser {
   }
 }
 
+// methods
 /**
  * Build a logout URL.
  *
@@ -111,11 +112,25 @@ export class CognitoCookieParser {
  */
 export const buildLogoutUrl = (): string => {
   const params = new URLSearchParams({
-    response_type: 'code',
     client_id: USER_POOL_APP_CLIENT_ID,
-    redirect_uri: location.origin,
-    state: 'STATE',
-    scope: 'openid profile'
+    logout_uri: location.origin + '/logout'
   })
   return USER_POOLL_APP_CLIENT_URL + '/logout?' + params.toString()
+}
+/**
+ * Remove cognito cookies.
+ *
+ * @returns Returns true if ok
+ */
+export const removeCookies = (): boolean => {
+  const cookies = getCookies()
+  for (const name in cookies) {
+    if (name.startsWith(COGNITO_BASE_PREFIX)) {
+      removeCookie(name, {
+        domain: '.' + window.location.hostname,
+        path: '/'
+      })
+    }
+  }
+  return true
 }

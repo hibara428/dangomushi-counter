@@ -24,7 +24,7 @@ export class AppStack extends Stack {
       appName: props.appName
     })
       .withDomainPrefix(`${props.appName}-login`)
-      .withIdentityProvider(`${props.appName}/oidc`, 'us-east-1')
+      .withIdentityProvider(`${props.appName}/oidc`)
 
     // CloudFront+S3
     const cdn = new AppCdn(this, 'web-app-cdn', {

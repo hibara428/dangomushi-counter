@@ -186,12 +186,10 @@ export class AppCdn extends Construct {
 
   withUserPool(userPool: WebUserPool): AppCdn {
     /* Cognito web app client for Frontend */
-    const callbackUrls = [
-      `https://${this._distribution.distributionDomainName}`,
-      `https://${this._fqdn}`
-    ]
+    const callbackUrls = [`https://${this._fqdn}`]
+    const logoutUrls = [`https://${this._fqdn}/logout`]
 
-    userPool.withClient(callbackUrls)
+    userPool.withClient(callbackUrls, logoutUrls)
 
     return this
   }
