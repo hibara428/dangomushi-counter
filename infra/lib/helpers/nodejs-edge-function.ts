@@ -96,7 +96,7 @@ export interface NodejsEdgeFunctionProps extends Omit<lambda.FunctionOptions, 'e
 export class NodejsEdgeFunction extends cloudfront.experimental.EdgeFunction {
   constructor(scope: Construct, id: string, props: NodejsEdgeFunctionProps) {
     const handler = props.handler ?? 'handler'
-    const runtime = props.runtime ?? lambda.Runtime.NODEJS_14_X
+    const runtime = props.runtime ?? lambda.Runtime.NODEJS_18_X
     const entry = path.resolve(findEntry(id, props.entry))
     const architecture = props.architecture ?? lambda.Architecture.X86_64
     const depsLockFilePath = findLockFile(props.depsLockFilePath)
@@ -105,7 +105,7 @@ export class NodejsEdgeFunction extends cloudfront.experimental.EdgeFunction {
       ...props,
       runtime,
       stackId: props.stackId,
-      code: Bundling.bundle({
+      code: Bundling.bundle(scope, {
         ...(props.bundling ?? {}),
         architecture,
         runtime,
