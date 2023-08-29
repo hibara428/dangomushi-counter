@@ -108,7 +108,7 @@ export class AppCdn extends Construct {
     )
 
     this._lambdaAtEdge = new NodejsEdgeFunction(this, 'auth-handler', {
-      runtime: lambda.Runtime.NODEJS_14_X
+      runtime: lambda.Runtime.NODEJS_18_X
     })
     this._lambdaAtEdge.addToRolePolicy(
       new iam.PolicyStatement({
