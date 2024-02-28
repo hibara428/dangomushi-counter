@@ -6,13 +6,6 @@ on:
     types:
       - opened
       - edited
-      - labeled
-      - unlabeled
-      - assigned
-      - unassigned
-      - milestoned
-      - demilestoned
-      - reopened
       - closed
 
 concurrency:
