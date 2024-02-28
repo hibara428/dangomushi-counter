@@ -15,6 +15,10 @@ on:
       - reopened
       - closed
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event_name }}
+  cancel-in-progress: false
+
 jobs:
   notion_job:
     runs-on: ubuntu-latest
