@@ -16,7 +16,7 @@ on:
       - closed
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.event_name }}
+  group: ${{ github.workflow }}-${{ github.event.url }}
   cancel-in-progress: false
 
 jobs:
